@@ -40,7 +40,7 @@ router.post("/", async (req, res) => {
 
     const newInterview = new Interview({
       topic,
-      sDate,
+      sDate: sDate.toLocal,
       eDate,
       participants: userList.map((user) => user.id),
     });
