@@ -1,4 +1,4 @@
-const mongoose = reuire("mongoose");
+const mongoose = require("mongoose");
 
 var InterviewSchema = new mongoose.Schema({
   topic: {
@@ -6,11 +6,11 @@ var InterviewSchema = new mongoose.Schema({
     required: true,
   },
   sDate: {
-    type: Date,
+    type: String,
     required: true,
   },
   eDate: {
-    type: Date,
+    type: String,
     required: true,
   },
   participants: [
