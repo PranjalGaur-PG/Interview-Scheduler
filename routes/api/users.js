@@ -16,6 +16,20 @@ router.get("/", async (req, res) => {
   }
 });
 
+// @route GET/api/users/read/:id
+// @description Get a user using ID
+// @access public
+router.get("/read/:id", async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id);
+    // console.log(user);
+
+    res.json(user.name);
+  } catch (err) {
+    return res.status(500).send({ error: "Server error !" });
+  }
+});
+
 // @route POST api/users
 // @description Add a User
 // @access PUBLIC

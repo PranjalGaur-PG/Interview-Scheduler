@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const User = require("../../models/User");
 const Interview = require("../../models/Interview");
+const check = require("../../middlewares/Check");
 
 // @route GET api/interviews
 // @description View all interviews
@@ -19,14 +20,14 @@ router.get("/", async (req, res) => {
 // @route POST api/interviews
 // @description Add an interview
 // @access PUBLIC
-router.post("/", async (req, res) => {
-  const { topic, sDate, eDate, userList } = req.body;
+router.post("/", check, async (req, res) => {
+  const { topic, sDate, eDate, participants } = req.body;
 
   if (sDate > eDate)
     return res.json({ msg: "End time should be less than Start time" });
 
   try {
-    userList.forEach(async (element) => {
+    participants.forEach(async (element) => {
       const user = await User.findById(element);
       if (!user) return res.json({ msg: "User not found !" });
 
@@ -34,29 +35,29 @@ router.post("/", async (req, res) => {
         const interview = await Interview.findById(id);
 
         if (!(interview.sDate > eDate || sDate > interview.eDate))
-          return res.json({ msg: "Interview dates overlap" });
+          return res.status(402).json({ msg: "Interview dates overlap" });
       });
     });
 
     const newInterview = new Interview({
       topic,
-      sDate: sDate.toLocal,
+      sDate,
       eDate,
-      participants: userList.map((user) => user.id),
+      participants,
     });
 
     await newInterview.save();
 
-    userList.forEach(async (element) => {
+    participants.forEach(async (element) => {
       const user = await User.findById(element);
 
-      user.interviewList.append(newInterview.id);
+      user.interviewList = [...user.interviewList, newInterview.id];
       await user.save();
     });
 
     return res.json({ msg: "Interview added successfully :)" });
   } catch (error) {
-    return res.status(500).send({ error: "Server error !" });
+    return res.status(500).send(error);
   }
 });
 
