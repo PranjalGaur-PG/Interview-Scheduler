@@ -22,6 +22,8 @@ router.get("/", async (req, res) => {
 // @access PUBLIC
 router.post("/", check, async (req, res) => {
   const { topic, sDate, eDate, participants } = req.body;
+  console.log("Hi!");
+  console.log(req.body);
 
   if (sDate > eDate)
     return res.json({ msg: "End time should be less than Start time" });
@@ -58,6 +60,24 @@ router.post("/", check, async (req, res) => {
     return res.json({ msg: "Interview added successfully :)" });
   } catch (error) {
     return res.status(500).send(error);
+  }
+});
+
+// @route    GET interviews/read/:d
+// @desc     Get specific interview using id
+// @access   Public
+router.get("/read/:id", async (req, res) => {
+  try {
+    const interviewRead = await Interview.findById(req.params.id);
+    // console.log(req.params.id);
+
+    if (!interviewRead) {
+      return res.status(404).json({ msg: "Interview details not found !!!" });
+    }
+    res.json(interviewRead);
+  } catch (err) {
+    console.error(err.message);
+    res.status(404).json({ msg: "Server Error" });
   }
 });
 

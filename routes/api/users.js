@@ -24,7 +24,7 @@ router.get("/read/:id", async (req, res) => {
     const user = await User.findById(req.params.id);
     // console.log(user);
 
-    res.json(user.name);
+    res.json(user);
   } catch (err) {
     return res.status(500).send({ error: "Server error !" });
   }

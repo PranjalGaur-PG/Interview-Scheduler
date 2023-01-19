@@ -20,15 +20,14 @@ function ViewInterview() {
   }, []);
 
   return (
-    <div className="p-[4rem] flex flex-col items-center">
+    <div className="p-[4rem] flex flex-col items-center w-10/12">
       <div className="text-lg text-[2rem] mb-5">List of Interviews</div>
       {isLoading ? (
         <Loader />
       ) : (
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+        <div className="grid grid-cols-1">
           {interviews.map((item) => (
             <ListItem item={item} key={item._id} />
-            // <div>hello</div>
           ))}
         </div>
       )}

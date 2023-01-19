@@ -25,7 +25,7 @@ function AddInterview() {
     const epochEDate = eDate.getTime();
 
     if (
-      topic.length == 0 ||
+      topic.length === 0 ||
       participants.length < 2 ||
       epochEDate <= epochSDate
     ) {
@@ -41,8 +41,8 @@ function AddInterview() {
     };
 
     try {
-      console.log(data);
-      // await axios.post("/api/interviews", data);
+      // console.log(data);
+      await axios.post("/api/interviews", data);
 
       navigate("/");
     } catch (err) {
@@ -142,7 +142,7 @@ function AddInterview() {
               htmlFor="participants"
               className="inline-block mb-2 text-gray-700 form-label"
             >
-              Participants * (atleast 2)
+              Participants (atleast 2) *
             </label>
             <Multiselect
               id="participants"

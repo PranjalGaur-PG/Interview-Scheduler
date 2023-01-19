@@ -34,7 +34,7 @@ const ListItem = ({ item }) => {
         participants.map(async (participant) => {
           const name = await axios.get(`api/users/read/${participant}`);
           // console.log(name.data);
-          setParticipantNames((prev) => [...prev, name.data]);
+          setParticipantNames((prev) => [...prev, name.data.name]);
         })
       );
 
