@@ -43,7 +43,7 @@ function EditInterview() {
 
     try {
       console.log(data);
-      // await axios.post("/api/interviews", data);
+      await axios.patch("/api/interviews/update", data);
 
       navigate("/");
     } catch (err) {

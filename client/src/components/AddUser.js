@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from "react";
-import Loader from "./Loader";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const AddUser = () => {
-  const [isLoading, setIsLoading] = useState(true);
+  // const [isLoading, setIsLoading] = useState(true);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
 
@@ -11,14 +11,22 @@ const AddUser = () => {
   const clickHandler = async (e) => {
     e.preventDefault();
 
-    if (name.length === 0 || email.length == 0) {
+    if (name.length === 0 || email.length === 0) {
       alert("Cannot submit with entry fields !");
       return;
     }
 
+    const data = { name, email };
+
     try {
-      // const checkMail =
-    } catch (error) {}
+      console.log(data);
+      const res = await axios.post("/api/users", data);
+      console.log(res.data);
+
+      navigate("/");
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   return (

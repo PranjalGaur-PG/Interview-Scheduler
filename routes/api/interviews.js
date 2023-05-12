@@ -2,7 +2,6 @@ const express = require("express");
 const router = express.Router();
 const User = require("../../models/User");
 const Interview = require("../../models/Interview");
-const check = require("../../middlewares/Check");
 
 // @route GET api/interviews
 // @description View all interviews
@@ -10,6 +9,7 @@ const check = require("../../middlewares/Check");
 router.get("/", async (req, res) => {
   try {
     const interviews = await Interview.find();
+    console.log(interviews);
 
     res.json(interviews);
   } catch (error) {
@@ -20,7 +20,7 @@ router.get("/", async (req, res) => {
 // @route POST api/interviews
 // @description Add an interview
 // @access PUBLIC
-router.post("/", check, async (req, res) => {
+router.post("/", async (req, res) => {
   const { topic, sDate, eDate, participants } = req.body;
   console.log("Hi!");
   console.log(req.body);
@@ -80,5 +80,10 @@ router.get("/read/:id", async (req, res) => {
     res.status(404).json({ msg: "Server Error" });
   }
 });
+
+// @route    PATCH interviews/patch
+// @desc     Edit an existing interview
+// @access   Public
+// router.patch("/update", async (req, res) => {});
 
 module.exports = router;
